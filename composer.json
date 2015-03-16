@@ -10,7 +10,7 @@
     ],
     "license": "MIT",
     "require": {
-        "behat/behat": "2.5.*@stable",
+        "behat/behat": "3.0.*@stable",
         "behat/mink-extension": "*"
     },
     "require-dev": {
