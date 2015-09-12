@@ -46,7 +46,7 @@ class WordPressContextInitializer implements ContextInitializer
             return;
         }
         $this->prepareEnvironment();
-        $this->installFileFixtures();
+//        $this->installFileFixtures();
         $this->flushDatabase();
         $this->loadStack();
     }
@@ -60,6 +60,11 @@ class WordPressContextInitializer implements ContextInitializer
         $urlComponents = parse_url($this->minkParams['base_url']);
         $_SERVER['HTTP_HOST'] = $urlComponents['host'] . (isset($urlComponents['port']) ? ':' . $urlComponents['port'] : '');
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+
+        //set ENV_FILE which is used by bedrock to determine the environment file to load
+        if (!defined('ENV_FILE')) {
+            define('ENV_FILE', '.env.behat');
+        }
 
 
         // we don't have a request uri in headless scenarios:
