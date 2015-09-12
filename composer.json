@@ -30,11 +30,12 @@
     "symfony/finder": "~2.3",
     "phpunit/phpunit": "~4.0"
   },
-  "require-dev": {},
+  "require-dev": {
+    "behat/mink-goutte-driver": "^1.1"
+  },
   "autoload": {
     "psr-4": {
       "Johnbillion\\WordPressExtension\\": "src"
-    },
-    "files": [ "../../phpunit/phpunit/src/Framework/Assert/Functions.php" ]
+    }
   }
 }
