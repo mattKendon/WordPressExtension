@@ -1,6 +1,6 @@
 <?php
 
-namespace Johnbillion\WordPressExtension\Context\Initializer;
+namespace MattKendon\BedrockWordPressExtension\Context\Initializer;
 
 use Behat\Behat\Context\Context,
     Behat\Behat\Context\Initializer\ContextInitializer;

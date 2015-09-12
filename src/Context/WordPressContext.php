@@ -1,5 +1,5 @@
 <?php
-namespace Johnbillion\WordPressExtension\Context;
+namespace MattKendon\BedrockWordPressExtension\Context;
 
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;

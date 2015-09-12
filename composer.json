@@ -1,7 +1,7 @@
 {
-  "name": "johnbillion/wordpress-behat-extension",
+  "name": "mattKendon/bedrock-behat-extension",
   "type": "library",
-  "description": "WordPress extension for Behat 3",
+  "description": "roots/bedrock WordPress extension for Behat 3",
   "authors": [
     {
       "name": "wdalmut",
@@ -14,6 +14,10 @@
     {
       "name": "johnbillion",
       "homepage": "https://github.com/johnbillion"
+    },
+    {
+      "name": "mattKendon",
+      "homepage": "https://github.com/mattKendon"
     }
   ],
   "keywords": [
@@ -35,7 +39,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Johnbillion\\WordPressExtension\\": "src"
+      "MattKendon\\BedrockWordPressExtension\\": "src"
     }
   }
 }

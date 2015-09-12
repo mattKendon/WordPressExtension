@@ -1,6 +1,6 @@
 <?php
 
-namespace Johnbillion\WordPressExtension\ServiceContainer;
+namespace MattKendon\BedrockWordPressExtension\ServiceContainer;
 
 use Behat\Behat\Context\ServiceContainer\ContextExtension,
     Behat\Testwork\ServiceContainer\Extension as ExtensionInterface,
