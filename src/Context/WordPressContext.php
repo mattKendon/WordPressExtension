@@ -1,21 +1,16 @@
 <?php
-namespace Corley\WordPressExtension\Context;
+namespace Johnbillion\WordPressExtension\Context;
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
 use Behat\MinkExtension\Context\MinkContext;
 
-use Behat\Behat\Event\SuiteEvent,
-    Behat\Behat\Event\ScenarioEvent;
-
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
-
+/**
+ * Class WordPressContext
+ *
+ * @package Johnbillion\WordPressExtension\Context
+ */
 class WordPressContext extends MinkContext
 {
     /**
@@ -25,13 +20,16 @@ class WordPressContext extends MinkContext
      */
     public function installWordPress(TableNode $table = null)
     {
+        global $wp_rewrite;
+
         $name = "admin";
         $email = "an@example.com";
         $password = "test";
         $username = "admin";
 
         if ($table) {
-            $row = $table->getHash()[0];
+            $hash = $table->getHash();
+            $row = $hash[0];
             $name = $row["name"];
             $username = $row["username"];
             $email = $row["email"];
@@ -46,6 +44,10 @@ class WordPressContext extends MinkContext
         assertTrue($value);
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
+
+        $wp_rewrite->init();
+        $wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+
     }
 
     /**
@@ -91,9 +93,9 @@ class WordPressContext extends MinkContext
     {
         foreach ($table->getHash() as $row) {
             if ($row["status"] == "enabled") {
-                activate_plugin(WP_PLUGIN_DIR . "/" . $row["plugin"]);
+                activate_plugin( $row["plugin"] );
             } else {
-                deactivate_plugins(WP_PLUGIN_DIR . "/" . $row["plugin"]);
+                deactivate_plugins( $row["plugin"] );
             }
         }
     }
@@ -106,6 +108,7 @@ class WordPressContext extends MinkContext
      */
     public function login($username, $password)
     {
+    	$this->getSession()->reset();
         $this->visit("wp-login.php");
         $currentPage = $this->getSession()->getPage();
 
