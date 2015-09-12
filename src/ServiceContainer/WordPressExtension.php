@@ -1,6 +1,6 @@
 <?php
 
-namespace MattKendon\BedrockWordPressExtension\ServiceContainer;
+namespace MattKendon\WordPressExtension\ServiceContainer;
 
 use Behat\Behat\Context\ServiceContainer\ContextExtension,
     Behat\Testwork\ServiceContainer\Extension as ExtensionInterface,
@@ -14,11 +14,11 @@ use Symfony\Component\Config\FileLocator,
     Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Class BedrockWordPressExtension
+ * Class WordPressExtension
  *
- * @package MattKendon\BedrockWordPressExtension\ServiceContainer
+ * @package MattKendon\WordPressExtension\ServiceContainer
  */
-class BedrockWordPressExtension implements ExtensionInterface
+class WordPressExtension implements ExtensionInterface
 {
 
     /**

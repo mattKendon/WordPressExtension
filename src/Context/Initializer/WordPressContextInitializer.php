@@ -1,6 +1,6 @@
 <?php
 
-namespace MattKendon\BedrockWordPressExtension\Context\Initializer;
+namespace MattKendon\WordPressExtension\Context\Initializer;
 
 use Behat\Behat\Context\Context,
     Behat\Behat\Context\Initializer\ContextInitializer;
@@ -13,7 +13,7 @@ use Johnbillion\WordPressExtension\Context\WordPressContext;
 /**
  * Class FeatureListener
  *
- * @package MattKendon\BedrockWordPressExtension\Listener
+ * @package MattKendon\WordPressExtension\Listener
  */
 class WordPressContextInitializer implements ContextInitializer
 {
