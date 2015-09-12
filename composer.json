@@ -40,6 +40,7 @@
   "autoload": {
     "psr-4": {
       "MattKendon\\WordPressExtension\\": "src"
-    }
+    },
+    "files": [ "../../phpunit/phpunit/src/Framework/Assert/Functions.php" ]
   }
 }
