@@ -1,5 +1,5 @@
 {
-  "name": "mattKendon/bedrock-behat-extension",
+  "name": "mattkendon/bedrock-behat-extension",
   "type": "library",
   "description": "roots/bedrock WordPress extension for Behat 3",
   "authors": [
