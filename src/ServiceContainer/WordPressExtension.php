@@ -14,11 +14,11 @@ use Symfony\Component\Config\FileLocator,
     Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Class WordPressExtension
+ * Class BedrockWordPressExtension
  *
- * @package Johnbillion\WordPressExtension\ServiceContainer
+ * @package MattKendon\BedrockWordPressExtension\ServiceContainer
  */
-class WordPressExtension implements ExtensionInterface
+class BedrockWordPressExtension implements ExtensionInterface
 {
 
     /**

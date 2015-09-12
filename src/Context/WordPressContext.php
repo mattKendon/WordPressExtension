@@ -9,7 +9,7 @@ use Behat\MinkExtension\Context\MinkContext;
 /**
  * Class WordPressContext
  *
- * @package Johnbillion\WordPressExtension\Context
+ * @package MattKendon\BedrockWordPressExtension\Context
  */
 class WordPressContext extends MinkContext
 {

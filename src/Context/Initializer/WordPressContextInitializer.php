@@ -13,7 +13,7 @@ use Johnbillion\WordPressExtension\Context\WordPressContext;
 /**
  * Class FeatureListener
  *
- * @package Johnbillion\WordPressExtension\Listener
+ * @package MattKendon\BedrockWordPressExtension\Listener
  */
 class WordPressContextInitializer implements ContextInitializer
 {
