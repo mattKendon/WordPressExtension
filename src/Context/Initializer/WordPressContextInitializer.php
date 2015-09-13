@@ -47,8 +47,8 @@ class WordPressContextInitializer implements ContextInitializer
         }
         $this->prepareEnvironment();
 //        $this->installFileFixtures();
-        $this->flushDatabase();
         $this->loadStack();
+        $this->flushDatabase();
     }
 
     /**
@@ -104,10 +104,22 @@ class WordPressContextInitializer implements ContextInitializer
             $password = getenv('DB_PASSWORD');
             $database = getenv('DB_NAME');
 
-            $mysqli = new \Mysqli($host, $user, $password, $database);
+            $dsn = "mysql:dbname={$database};host={$host}";
 
-            //drop database doesn't always work. Truncate and/or drop tables instead
-            $mysqli->multi_query("DROP DATABASE IF EXISTS {$database}; CREATE DATABASE {$database};");
+            $db = new \PDO($dsn, $user, $password);
+
+            $db->exec("SET FOREIGN_KEY_CHECKS = 0;");
+            $db->exec("SET GROUP_CONCAT_MAX_LEN=32768;");
+            $db->exec("SET @tables = NULL;");
+            $db->exec("SELECT GROUP_CONCAT('`', table_name, '`') INTO @tables
+                    FROM information_schema.tables
+                    WHERE table_schema = (SELECT DATABASE());");
+            $db->exec("SELECT IFNULL(@tables,'dummy') INTO @tables;");
+            $db->exec("SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);");
+            $db->exec("PREPARE stmt FROM @tables;");
+            $db->exec("EXECUTE stmt;");
+            $db->exec("DEALLOCATE PREPARE stmt;");
+            $db->exec("SET FOREIGN_KEY_CHECKS = 1;");
         }
     }
 }

@@ -41,13 +41,25 @@ class WordPressContext extends MinkContext
         $password = getenv('DB_PASSWORD');
         $database = getenv('DB_NAME');
 
-        $mysqli = new \Mysqli($host, $user, $password, $database);
+        $dsn = "mysql:dbname={$database};host={$host}";
 
-        $value = $mysqli->multi_query(implode("\n", array(
-            "DROP DATABASE IF EXISTS " . $database . ";",
-            "CREATE DATABASE " . $database . ";",
-        )));
-        assertTrue($value);
+        $db = new \PDO($dsn, $user, $password);
+
+//        $mysqli = new \Mysqli($host, $user, $password, $database);
+
+        $db->exec("SET FOREIGN_KEY_CHECKS = 0;");
+        $db->exec("SET GROUP_CONCAT_MAX_LEN=32768;");
+        $db->exec("SET @tables = NULL;");
+        $db->exec("SELECT GROUP_CONCAT('`', table_name, '`') INTO @tables
+                    FROM information_schema.tables
+                    WHERE table_schema = (SELECT DATABASE());");
+        $db->exec("SELECT IFNULL(@tables,'dummy') INTO @tables;");
+        $db->exec("SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);");
+        $db->exec("PREPARE stmt FROM @tables;");
+        $db->exec("EXECUTE stmt;");
+        $db->exec("DEALLOCATE PREPARE stmt;");
+        $db->exec("SET FOREIGN_KEY_CHECKS = 1;");
+//        assertTrue($value);
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
 
