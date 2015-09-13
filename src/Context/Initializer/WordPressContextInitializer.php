@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context,
 use Symfony\Component\Finder\Finder,
     Symfony\Component\Filesystem\Filesystem;
 
-use Johnbillion\WordPressExtension\Context\WordPressContext;
+use MattKendon\WordPressExtension\Context\WordPressContext;
 
 /**
  * Class FeatureListener
@@ -93,54 +93,21 @@ class WordPressContextInitializer implements ContextInitializer
     }
 
     /**
-     * create a wp-config.php and link plugins / themes
-     */
-    public function installFileFixtures()
-    {
-        $finder = new Finder();
-        $fs = new Filesystem();
-        $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-config-sample.php');
-        foreach ($finder as $file) {
-            $configContent =
-                str_replace(array(
-                    "'DB_NAME', 'database_name_here'",
-                    "'DB_USER', 'username_here'",
-                    "'DB_PASSWORD', 'password_here'"
-                ), array(
-                    sprintf("'DB_NAME', '%s'", $this->wordpressParams['connection']['db']),
-                    sprintf("'DB_USER', '%s'", $this->wordpressParams['connection']['username']),
-                    sprintf("'DB_PASSWORD', '%s'", $this->wordpressParams['connection']['password']),
-                ), $file->getContents());
-            $fs->dumpFile($file->getPath() . '/wp-config.php', $configContent);
-        }
-
-        if (isset($this->wordpressParams['symlink']['from']) && isset($this->wordpressParams['symlink']['to'])) {
-            $from = $this->wordpressParams['symlink']['from'];
-
-            if (substr($from, 0, 1) != '/') {
-                $from = $this->basePath . DIRECTORY_SEPARATOR . $from;
-            }
-            if ($fs->exists($this->wordpressParams['symlink']['from'])) {
-                $fs->symlink($from, $this->wordpressParams['symlink']['to']);
-            }
-        }
-    }
-
-    /**
      * flush the database if specified by flush_database parameter
      */
     public function flushDatabase()
     {
         if ($this->wordpressParams['flush_database']) {
-            $connection = $this->wordpressParams['connection'];
-            $mysqli = new \Mysqli(
-                'localhost',
-                $connection['username'],
-                $connection['password'],
-                $connection['db']
-            );
 
-            $result = $mysqli->multi_query("DROP DATABASE IF EXISTS ${connection['db']}; CREATE DATABASE ${connection['db']};");
+            $host = getenv('DB_HOST');
+            $user = getenv('DB_USER');
+            $password = getenv('DB_PASSWORD');
+            $database = getenv('DB_NAME');
+
+            $mysqli = new \Mysqli($host, $user, $password, $database);
+
+            //drop database doesn't always work. Truncate and/or drop tables instead
+            $mysqli->multi_query("DROP DATABASE IF EXISTS {$database}; CREATE DATABASE {$database};");
         }
     }
 }
